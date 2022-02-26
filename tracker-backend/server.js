@@ -35,6 +35,17 @@ weightRoutes.route('/:id').get(function(req, res) {
     });
 });
 
+weightRoutes.route('/name/:weight_user').get(function(req, res) {
+    let id = req.params;
+    Weight.find(id, function(err, weight) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(weight);
+        }
+    });
+});
+
 weightRoutes.route('/add').post(function(req, res) {
     let weight = new Weight(req.body);
     

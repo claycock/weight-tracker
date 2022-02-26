@@ -66,8 +66,8 @@ export default function WeightDialog() {
             name="row-radio-buttons-group"
             onChange={handleIdentityChange}
             >
-              <FormControlLabel value="bekah" control={<Radio />} label="Bekah" />
-              <FormControlLabel value="chris" control={<Radio />} label="Chris" />
+              <FormControlLabel value="Bekah" control={<Radio />} label="Bekah" />
+              <FormControlLabel value="Chris" control={<Radio />} label="Chris" />
             </RadioGroup>
           </FormControl>
 
