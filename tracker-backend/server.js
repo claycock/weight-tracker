@@ -37,9 +37,14 @@ weightRoutes.route('/:id').get(function(req, res) {
 
 weightRoutes.route('/add').post(function(req, res) {
     let weight = new Weight(req.body);
+    
+    // Change date format
+    weight.weight_date = stripDate(req.body.weight_date);
+
     weight.save()
         .then(weight => {
             res.status(200).json({'weight': 'weight added successfully'});
+            console.log('New weight added', req.body);
         })
         .catch(err => {
             res.status(400).send('adding weight failed');
@@ -49,11 +54,12 @@ weightRoutes.route('/add').post(function(req, res) {
 weightRoutes.route('/update/:id').post(function(req, res) {
     Weight.findById(req.params.id, function(err, weight) {
         if (!weight)
-            res.status(404).send("data is not found");
+            res.status(404).send("Data not found");
         else
-            weight.weight_description = req.body.weight_user;
-            weight.weight_responsible = req.body.weight_date;
-            weight.weight_priority = req.body.weight_lbs;
+            req.body.weight_date = stripDate(req.body.weight_date);
+            weight.weight_user = req.body.weight_user;
+            weight.weight_date = req.body.weight_date;
+            weight.weight_lbs = req.body.weight_lbs;
             weight.save().then(weight => {
                 res.json('weight updated!');
             })
@@ -63,11 +69,25 @@ weightRoutes.route('/update/:id').post(function(req, res) {
     });
 });
 
+weightRoutes.route('/delete/:id').post(function(req, res) {
+    Weight.findById(req.params.id, function(err, weight) {
+        if (!weight)
+            res.status(404).send("Data not found");
+        else
+            weight.deleteOne();
+            res.status(200).send("Deleted")
+    })
+});
+
+function stripDate(fullDate) {
+    let date = new Date(fullDate);
+    return (date.getMonth()+1).toString() + "/" + (date.getDate()).toString() + "/" + (date.getFullYear()).toString();
+}
 
 
 
 app.use('/weights', weightRoutes);
 
-app.listen(PORT, function() {
+app.listen(PORT, '0.0.0.0', function() {
     console.log("Server is running on Port: " + PORT);
 });

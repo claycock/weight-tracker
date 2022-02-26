@@ -1,12 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
-import Button from '@mui/material/Button';
+import DataTable from './Components/Table'
+import WeightDialog from './Components/AddWeightDialog'
+import React from 'react';
 
 function App() {
   return (
     <div className="App">
       <p></p>
-      <Button variant="contained">Hello World</Button>
+      <WeightDialog></WeightDialog>
+      <p></p>
+
+      
+      <DataTable></DataTable>
+
     </div>
   );
 }
